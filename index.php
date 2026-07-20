@@ -25,6 +25,7 @@ include("php/db.php");
 <body>
 
 <!-- ================= NAVBAR ================= -->
+<!-- ================= NAVBAR ================= -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
 
