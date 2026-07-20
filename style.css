@@ -1,0 +1,359 @@
+/*==========================
+   GOOGLE FONT & RESET
+==========================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:#fff;
+}
+
+a{
+    text-decoration:none;
+}
+
+section{
+    padding:100px 10%;
+}
+
+.title{
+    text-align:center;
+    font-size:40px;
+    color:#38bdf8;
+    margin-bottom:50px;
+}
+
+/*==========================
+        HEADER
+==========================*/
+
+header{
+    position:fixed;
+    width:100%;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 10%;
+    background:rgba(15,23,42,.95);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+.logo{
+    font-size:32px;
+    color:#38bdf8;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    margin-left:30px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+/*==========================
+        HERO
+==========================*/
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:50px;
+}
+
+.hero-text{
+    flex:1;
+}
+
+.hero-text h3{
+    font-size:28px;
+    color:#94a3b8;
+}
+
+.hero-text h1{
+    font-size:70px;
+    color:#38bdf8;
+}
+
+.hero-text h2{
+    font-size:35px;
+    margin:15px 0;
+}
+
+.hero-text p{
+    color:#cbd5e1;
+    line-height:1.8;
+    margin-bottom:30px;
+}
+
+.hero-image{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+
+.hero-image img{
+    width:350px;
+    height:350px;
+    object-fit:cover;
+    border-radius:50%;
+    border:6px solid #38bdf8;
+    box-shadow:0 0 35px #38bdf8;
+    animation:float 4s ease-in-out infinite;
+}
+
+/*==========================
+        BUTTONS
+==========================*/
+
+.buttons{
+    display:flex;
+    gap:20px;
+}
+
+.btn,
+.btn2{
+
+    padding:14px 30px;
+    border-radius:40px;
+    transition:.4s;
+    font-weight:600;
+}
+
+.btn{
+    background:#38bdf8;
+    color:white;
+}
+
+.btn2{
+    border:2px solid #38bdf8;
+    color:#38bdf8;
+}
+
+.btn:hover,
+.btn2:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 0 20px #38bdf8;
+
+}
+
+/*==========================
+        CARD
+==========================*/
+
+.card{
+
+    background:#1e293b;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    line-height:2;
+
+    box-shadow:0 0 20px rgba(0,0,0,.3);
+
+}
+
+/*==========================
+        SKILLS
+==========================*/
+
+.skills{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+
+    gap:20px;
+
+}
+
+.skills div{
+
+    background:#1e293b;
+
+    text-align:center;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    transition:.4s;
+
+    font-weight:600;
+
+}
+
+.skills div:hover{
+
+    background:#38bdf8;
+
+    transform:translateY(-10px);
+
+}
+
+/*==========================
+      PROJECTS
+==========================*/
+
+.projects{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+    gap:30px;
+
+}
+
+.project{
+
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    transition:.4s;
+
+}
+
+.project:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 0 25px #38bdf8;
+
+}
+
+.project h3{
+
+    color:#38bdf8;
+
+    margin-bottom:15px;
+
+}
+
+/*==========================
+      CONTACT
+==========================*/
+
+#contact p{
+
+    margin:20px 0;
+
+    font-size:18px;
+
+}
+
+#contact i{
+
+    color:#38bdf8;
+
+    margin-right:10px;
+
+}
+
+/*==========================
+      FOOTER
+==========================*/
+
+footer{
+
+    text-align:center;
+
+    padding:25px;
+
+    background:#08111f;
+
+}
+
+/*==========================
+      ANIMATION
+==========================*/
+
+@keyframes float{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-15px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+/*==========================
+    RESPONSIVE
+==========================*/
+
+@media(max-width:900px){
+
+header{
+
+flex-direction:column;
+
+padding:20px;
+
+}
+
+nav{
+
+margin-top:15px;
+
+}
+
+.hero{
+
+flex-direction:column-reverse;
+
+text-align:center;
+
+padding-top:120px;
+
+}
+
+.hero-text h1{
+
+font-size:50px;
+
+}
+
+.hero-image img{
+
+width:280px;
+
+height:280px;
+
+}
+
+.buttons{
+
+justify-content:center;
+
+}
+
+}
