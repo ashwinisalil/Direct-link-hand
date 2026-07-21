@@ -1,0 +1,4 @@
+# Uploaded documents must never be executable as PHP scripts.
+<FilesMatch "\.(php|php[0-9]?|phtml|phar)$">
+    Require all denied
+</FilesMatch>
