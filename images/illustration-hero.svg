@@ -1,0 +1,38 @@
+<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky / paper backdrop -->
+  <rect x="0" y="0" width="480" height="360" rx="8" fill="#EFF5EA"/>
+
+  <!-- Sun -->
+  <circle cx="380" cy="80" r="38" fill="#F1E4D3"/>
+  <circle cx="380" cy="80" r="26" fill="#F5D98B"/>
+
+  <!-- Rolling ground -->
+  <path d="M0 250 Q120 210 240 245 T480 235 V360 H0 Z" fill="#DFEAE3"/>
+  <path d="M0 290 Q140 260 260 285 T480 275 V360 H0 Z" fill="#C9E0BE"/>
+
+  <!-- Distant leaves / trees -->
+  <g opacity="0.8">
+    <circle cx="70" cy="230" r="26" fill="#5FBD6D"/>
+    <rect x="66" y="248" width="8" height="26" fill="#8C6A3F"/>
+    <circle cx="120" cy="215" r="18" fill="#3FA34D"/>
+    <rect x="117" y="228" width="6" height="20" fill="#8C6A3F"/>
+  </g>
+
+  <!-- Large cupped hands -->
+  <path d="M150 300c-30-10-55-38-55-72 0-18 10-30 24-30 12 0 20 8 22 18 4-18 20-30 38-30 22 0 38 18 38 40 0 40-30 66-67 74z"
+        fill="#FFFFFF" stroke="#14311F" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M330 300c30-10 55-38 55-72 0-18-10-30-24-30-12 0-20 8-22 18-4-18-20-30-38-30-22 0-38 18-38 40 0 40 30 66 67 74z"
+        fill="#FFFFFF" stroke="#14311F" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- Growing seedling rising from between the hands -->
+  <path d="M240 300V220" stroke="#14311F" stroke-width="4" stroke-linecap="round"/>
+  <path d="M240 220c0-26-20-42-46-42 0 26 20 46 46 42z" fill="#3FA34D" stroke="#2C7A38" stroke-width="2"/>
+  <path d="M240 210c0-22 18-36 40-36 0 22-18 40-40 36z" fill="#5FBD6D" stroke="#2C7A38" stroke-width="2"/>
+
+  <!-- Small floating leaves for warmth -->
+  <g fill="#3FA34D" opacity="0.55">
+    <ellipse cx="90" cy="90" rx="9" ry="5" transform="rotate(30 90 90)"/>
+    <ellipse cx="420" cy="180" rx="9" ry="5" transform="rotate(-20 420 180)"/>
+    <ellipse cx="40" cy="170" rx="7" ry="4" transform="rotate(10 40 170)"/>
+  </g>
+</svg>
