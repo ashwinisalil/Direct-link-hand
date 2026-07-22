@@ -1,36 +1,15 @@
 <?php
-/**
- * ===============================================================
- * DONATE PAGE (donate.php)
- * ===============================================================
- * Lets a logged-in donor send money to an organization. On submit,
- * it creates TWO database rows:
- *   1. A row in "donations"            (the donation record itself)
- *   2. A row in "payment_transactions" (the payment gateway record)
- *
- * NOTE: This is a simplified/demo flow. A real donation site would
- * call an actual payment gateway (Razorpay, Stripe, PayPal, etc.)
- * here and only mark the donation "Completed" after the gateway
- * confirms the payment succeeded.
- * ===============================================================
- */
-
 require_once 'includes/db.php';
 $pageTitle = 'Donate';
 
-// Must be logged in as a donor to give — otherwise send them to log in first.
 if (!isset($_SESSION['user_id'])) {
     redirect('login.php');
 }
 
 $error = '';
 $success = '';
-
-// If they arrived via a link like donate.php?org_id=5 (from the
-// homepage or organizations page), pre-select that organization.
 $selected_org = $_GET['org_id'] ?? ($_POST['org_id'] ?? '');
 
-// Dropdown list of all approved organizations to choose from.
 $organizations = mysqli_fetch_all(mysqli_query($conn, "SELECT org_id, organization_name FROM organizations
                                                          WHERE status = 'Approved' ORDER BY organization_name"), MYSQLI_ASSOC);
 
@@ -44,29 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!is_numeric($amount) || $amount <= 0) {
         $error = 'Please enter a valid donation amount.';
     } else {
-        // Generate simple unique-ish reference codes for this donation.
-        // uniqid() is based on the current time in microseconds, so it's
-        // "good enough" for a demo project (a real payment gateway would
-        // give you its own transaction ID instead).
+        // NOTE: In production, integrate a real payment gateway (Razorpay/Stripe/PayPal)
+        // here before marking the donation as completed. This is a simplified flow
+        // suitable for a college project / demo.
         $receipt_number = 'DLH-' . strtoupper(uniqid());
         $payment_id     = 'PAY-' . strtoupper(uniqid());
         $user_id        = $_SESSION['user_id'];
         $status         = 'Completed';
 
-        // ---- Step 1: record the donation itself ----
         $stmt = mysqli_prepare($conn, "INSERT INTO donations
             (user_id, org_id, amount, payment_id, payment_method, payment_status, donation_date, receipt_number)
             VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)");
-        // Type string "iidssss": i=user_id, i=org_id, d=amount(decimal), then strings
         mysqli_stmt_bind_param($stmt, "iidssss",
             $user_id, $org_id, $amount, $payment_id, $payment_method, $status, $receipt_number);
         mysqli_stmt_execute($stmt);
-
-        // mysqli_insert_id() gives us the donation_id MySQL just created,
-        // so we can link the payment_transactions row to it below.
         $donation_id = mysqli_insert_id($conn);
 
-        // ---- Step 2: record the "payment gateway" transaction ----
         $txStatus = 'Success';
         $stmt = mysqli_prepare($conn, "INSERT INTO payment_transactions
             (donation_id, payment_gateway, transaction_reference, amount, transaction_status, transaction_date)
@@ -105,8 +77,6 @@ include 'includes/navbar.php';
             <select id="org_id" name="org_id" required>
                 <option value="">-- Select Organization --</option>
                 <?php foreach ($organizations as $org): ?>
-                    <!-- "selected" is added automatically if this org matches
-                         the one passed in via the URL (?org_id=..) -->
                     <option value="<?= e($org['org_id']) ?>" <?= ($selected_org == $org['org_id']) ? 'selected' : '' ?>>
                         <?= e($org['organization_name']) ?>
                     </option>

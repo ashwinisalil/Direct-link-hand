@@ -1,15 +1,4 @@
 <?php
-/**
- * ===============================================================
- * ORGANIZATION PROFILE EDITOR (organization/profile.php)
- * ===============================================================
- * Lets a logged-in organization update its own details: name,
- * category, address, description, and bank details for receiving
- * donations. Does NOT let them change their email/password or
- * approval status from here.
- * ===============================================================
- */
-
 require_once '../includes/db.php';
 $pageTitle = 'Organization Profile';
 
@@ -25,8 +14,6 @@ $categories = mysqli_fetch_all(mysqli_query($conn, "SELECT * FROM categories ORD
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $organization_name = trim($_POST['organization_name'] ?? '');
-    // "?: null" turns an empty dropdown selection into a real NULL value
-    // instead of an empty string, which keeps the category_id column clean.
     $category_id        = $_POST['category_id'] ?: null;
     $phone               = trim($_POST['phone'] ?? '');
     $address             = trim($_POST['address'] ?? '');
@@ -42,9 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($organization_name === '') {
         $error = 'Organization name is required.';
     } else {
-        // Update every editable column in one query. Notice we do NOT
-        // touch "email", "password", or "status" here — those are
-        // intentionally left out so this form can't be used to change them.
         $stmt = mysqli_prepare($conn, "UPDATE organizations SET
             organization_name = ?, category_id = ?, phone = ?,
             address = ?, city = ?, state = ?, pincode = ?,
@@ -59,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Re-fetch the (now updated) organization details to display in the form
 $stmt = mysqli_prepare($conn, "SELECT * FROM organizations WHERE org_id = ?");
 mysqli_stmt_bind_param($stmt, "i", $org_id);
 mysqli_stmt_execute($stmt);

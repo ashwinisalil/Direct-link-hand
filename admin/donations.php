@@ -1,13 +1,4 @@
 <?php
-/**
- * ===============================================================
- * ADMIN: ALL DONATIONS (admin/donations.php)
- * ===============================================================
- * A read-only report listing every donation made on the platform,
- * across every donor and organization.
- * ===============================================================
- */
-
 require_once '../includes/db.php';
 $pageTitle = 'All Donations';
 
@@ -15,7 +6,6 @@ if (!isset($_SESSION['admin_id'])) {
     redirect('../login.php');
 }
 
-// Two JOINs: one to get the donor's name, one to get the org's name.
 $donations = mysqli_fetch_all(mysqli_query($conn, "SELECT d.*, u.full_name, o.organization_name
                                                      FROM donations d
                                                      JOIN users u ON d.user_id = u.user_id

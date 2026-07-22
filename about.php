@@ -1,13 +1,4 @@
 <?php
-/**
- * ===============================================================
- * ABOUT PAGE (about.php)
- * ===============================================================
- * A static informational page — no database writes happen here,
- * just a page explaining how the platform works in 3 steps.
- * ===============================================================
- */
-
 require_once 'includes/db.php';
 $pageTitle = 'About Us';
 include 'includes/header.php';
@@ -24,7 +15,6 @@ include 'includes/navbar.php';
         exactly where it went.
     </p>
 
-    <!-- 3-step explanation of the platform's workflow -->
     <div class="card-grid">
         <div class="ticket">
             <div class="ticket-stub"><span>Step 01</span><span class="ticket-stub-right">Verify</span></div>

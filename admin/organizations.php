@@ -1,18 +1,4 @@
 <?php
-/**
- * ===============================================================
- * ADMIN: MANAGE ORGANIZATIONS (admin/organizations.php)
- * ===============================================================
- * This is where the admin approves or rejects organizations that
- * registered themselves via register.php. Every organization
- * (Pending, Approved, or Rejected) shows up here.
- *
- * An organization only becomes visible to the public (on
- * organizations.php / index.php) and able to log in AFTER it is
- * approved here.
- * ===============================================================
- */
-
 require_once '../includes/db.php';
 $pageTitle = 'Manage Organizations';
 
@@ -20,8 +6,7 @@ if (!isset($_SESSION['admin_id'])) {
     redirect('../login.php');
 }
 
-// Action links look like: ?action=approve&id=5, ?action=reject&id=5,
-// or ?action=delete&id=5 — handle whichever one was clicked.
+// Approve / Reject / Delete actions
 if (isset($_GET['action'], $_GET['id'])) {
     $id = $_GET['id'];
 
@@ -38,13 +23,9 @@ if (isset($_GET['action'], $_GET['id'])) {
         mysqli_stmt_bind_param($stmt, "i", $id);
         mysqli_stmt_execute($stmt);
     }
-    // Redirect back to this same page (without the ?action=... in the
-    // URL) so refreshing the browser doesn't repeat the action.
     redirect('organizations.php');
 }
 
-// LEFT JOIN so organizations without a category still show up
-// (category_name would just be NULL for them).
 $organizations = mysqli_fetch_all(mysqli_query($conn, "SELECT o.*, c.category_name FROM organizations o
                                                          LEFT JOIN categories c ON o.category_id = c.category_id
                                                          ORDER BY o.created_at DESC"), MYSQLI_ASSOC);
@@ -77,12 +58,8 @@ include '../includes/navbar.php';
                         <td><?= e($org['category_name'] ?? '-') ?></td>
                         <td><?= e($org['email']) ?></td>
                         <td><?= e($org['city']) ?></td>
-                        <!-- strtolower() turns "Approved" into "approved" to match
-                             the .status-approved / .status-pending CSS classes -->
                         <td><span class="status status-<?= strtolower(e($org['status'])) ?>"><?= e($org['status']) ?></span></td>
                         <td>
-                            <!-- Only show "Approve" if it isn't already approved,
-                                 and only show "Reject" if it isn't already rejected -->
                             <?php if ($org['status'] !== 'Approved'): ?>
                                 <a href="?action=approve&id=<?= e($org['org_id']) ?>" class="btn btn-small btn-success">Approve</a>
                             <?php endif; ?>

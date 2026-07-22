@@ -1,33 +1,12 @@
 <?php
-/**
- * ===============================================================
- * LOGIN PAGE (login.php)
- * ===============================================================
- * ONE login form handles THREE different account types, chosen
- * with the "Login As" dropdown: Donor, Organization, or Admin.
- * Depending on the choice, we check a different database table
- * and set a different $_SESSION variable:
- *
- *   Donor        -> checks "users" table        -> $_SESSION['user_id']
- *   Organization -> checks "organizations" table -> $_SESSION['org_id']
- *   Admin        -> checks "admin" table         -> $_SESSION['admin_id']
- *
- * includes/navbar.php looks at these same session variables to
- * decide what menu links to show.
- * ===============================================================
- */
-
 require_once 'includes/db.php';
 $pageTitle = 'Login';
 
-// Already logged in as something? Skip the login page.
 if (isset($_SESSION['user_id']) || isset($_SESSION['org_id']) || isset($_SESSION['admin_id'])) {
     redirect('index.php');
 }
 
 $error = '';
-// Remembers which dropdown option was chosen, so it stays selected
-// if the login fails and the page reloads.
 $loginType = $_POST['login_type'] ?? 'user';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,19 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $error = 'Please enter both email and password.';
     } else {
-
         if ($loginType === 'admin') {
-            // ---- ADMIN LOGIN ----
-            // Admins can type either their username or their email
-            // in the same box, so we check both columns with OR.
             $stmt = mysqli_prepare($conn, "SELECT * FROM admin WHERE username = ? OR email = ?");
             mysqli_stmt_bind_param($stmt, "ss", $email, $email);
             mysqli_stmt_execute($stmt);
             $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
-            // password_verify() checks the typed password against the
-            // hashed one stored in the database (see password_hash()
-            // used back in register.php).
             if ($row && password_verify($password, $row['password'])) {
                 $_SESSION['admin_id'] = $row['admin_id'];
                 redirect('admin/dashboard.php');
@@ -58,15 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } elseif ($loginType === 'organization') {
-            // ---- ORGANIZATION LOGIN ----
             $stmt = mysqli_prepare($conn, "SELECT * FROM organizations WHERE email = ?");
             mysqli_stmt_bind_param($stmt, "s", $email);
             mysqli_stmt_execute($stmt);
             $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
             if ($row && password_verify($password, $row['password'])) {
-                // Even with the right password, an organization can't log
-                // in until an admin has approved it (see admin/organizations.php).
                 if ($row['status'] !== 'Approved') {
                     $error = 'Your organization account is not approved yet.';
                 } else {
@@ -79,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } else {
-            // ---- DONOR LOGIN (default) ----
             $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
             mysqli_stmt_bind_param($stmt, "s", $email);
             mysqli_stmt_execute($stmt);
