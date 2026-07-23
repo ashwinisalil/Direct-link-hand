@@ -13,59 +13,165 @@ $result = mysqli_query($conn, "SELECT org_id, organization_name, city, state, de
 $organizations = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
-<main class="container">
-    <section class="hero">
-        <p class="eyebrow">Verified · Direct · Traceable</p>
-        <h1>A straight line from your hand to theirs.</h1>
-        <p class="lede">No middlemen, no vague "impact reports." Every donation on Direct Link Hands
-           moves straight to a document-verified organization, with a receipt to prove it.</p>
+<main>
 
-        <div class="route">
-            <div class="route-node">
-                <span class="route-label">Donor</span>
-                <strong>You</strong>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <span class="badge">✔ Verified Organizations</span>
+
+            <h1>Every Donation Reaches the Right Hands.</h1>
+
+            <p>
+                Support trusted organizations with complete transparency.
+                Every organization is verified before joining Direct Link Hands,
+                ensuring your contribution reaches those who need it most.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="organizations.php" class="btn btn-primary">
+                    Browse Organizations
+                </a>
+
+                <a href="register.php" class="btn btn-outline">
+                    Join Now
+                </a>
             </div>
-            <div class="route-line"></div>
-            <div class="route-node route-hub">
-                <span class="route-label">Verified Transfer</span>
-                <strong>Direct Link Hands</strong>
+
+            <div class="hero-stats">
+                <div>
+                    <h3>100%</h3>
+                    <p>Verified NGOs</p>
+                </div>
+
+                <div>
+                    <h3>Secure</h3>
+                    <p>Payments</p>
+                </div>
+
+                <div>
+                    <h3>Transparent</h3>
+                    <p>Donations</p>
+                </div>
             </div>
-            <div class="route-line"></div>
-            <div class="route-node">
-                <span class="route-label">Recipient</span>
-                <strong>Organization</strong>
-            </div>
+
         </div>
 
-        <a href="organizations.php" class="btn btn-primary">Browse Organizations</a>
-        <a href="register.php" class="btn btn-secondary">Get Started</a>
+        <div class="hero-image">
+            <img src="assets/images/charity.png" alt="Helping Hands">
+        </div>
     </section>
 
-    <section class="featured-orgs page">
-        <p class="eyebrow">Featured</p>
-        <h2>Organizations receiving support right now</h2>
-        <div class="card-grid">
-            <?php if (empty($organizations)): ?>
-                <p>No approved organizations yet. Check back soon!</p>
+
+    <!-- Why Choose -->
+    <section class="features">
+
+        <h2>Why Choose Direct Link Hands?</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Verified Organizations</h3>
+                <p>
+                    Every organization is carefully verified before it is allowed
+                    to receive donations.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Donations</h3>
+                <p>
+                    Safe payment processing with complete transaction records.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Direct Support</h3>
+                <p>
+                    Your donation goes directly to the selected organization.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Featured Organizations -->
+
+    <section class="featured-section">
+
+        <div class="section-title">
+            <h2>Featured Organizations</h2>
+            <a href="organizations.php">View All →</a>
+        </div>
+
+        <div class="org-grid">
+
+            <?php if(empty($organizations)): ?>
+
+                <p>No organizations available.</p>
+
             <?php else: ?>
-                <?php foreach ($organizations as $org): ?>
-                    <div class="ticket">
-                        <div class="ticket-stub">
-                            <span>Org #<?= e(str_pad($org['org_id'], 4, '0', STR_PAD_LEFT)) ?></span>
-                            <span class="ticket-stub-right">Verified</span>
+
+                <?php foreach($organizations as $org): ?>
+
+                    <div class="org-card">
+
+                        <div class="org-top">
+                            <span class="verified">
+                                ✔ Verified
+                            </span>
                         </div>
-                        <div class="ticket-perf"></div>
-                        <div class="ticket-body">
-                            <h3><?= e($org['organization_name']) ?></h3>
-                            <p class="ticket-meta"><?= e($org['city']) ?>, <?= e($org['state']) ?></p>
-                            <p><?= e(mb_strimwidth($org['description'] ?? '', 0, 120, '...')) ?></p>
-                            <a href="donate.php?org_id=<?= e($org['org_id']) ?>" class="btn btn-small btn-primary">Donate Now</a>
-                        </div>
+
+                        <h3><?= e($org['organization_name']) ?></h3>
+
+                        <p class="location">
+                            📍 <?= e($org['city']) ?>,
+                            <?= e($org['state']) ?>
+                        </p>
+
+                        <p>
+                            <?= e(mb_strimwidth($org['description'] ?? '',0,140,'...')) ?>
+                        </p>
+
+                        <a class="btn btn-primary"
+                           href="donate.php?org_id=<?= $org['org_id'] ?>">
+                            Donate Now
+                        </a>
+
                     </div>
+
                 <?php endforeach; ?>
+
             <?php endif; ?>
+
         </div>
+
     </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <h2>Together We Can Make a Difference</h2>
+
+        <p>
+            Join thousands of donors supporting verified organizations across
+            the country.
+        </p>
+
+        <a href="register.php" class="btn btn-primary">
+            Become a Donor
+        </a>
+
+    </section>
+
 </main>
+
 
 <?php include 'includes/footer.php'; ?>
